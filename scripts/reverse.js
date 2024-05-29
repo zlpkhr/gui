@@ -23,7 +23,7 @@ const transformer = new Transform({
   },
 });
 
-const readStream = createReadStream(resolve(__dirname, args.values.input));
+const readStream = createReadStream(resolve(process.cwd(), args.values.input));
 
 const readLine = createInterface({
   input: readStream,
@@ -38,6 +38,8 @@ readLine.on("close", () => {
   transformer.end();
 });
 
-const writeStream = createWriteStream(resolve(__dirname, args.values.output));
+const writeStream = createWriteStream(
+  resolve(process.cwd(), args.values.output),
+);
 
 transformer.pipe(writeStream);
