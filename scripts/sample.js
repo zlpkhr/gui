@@ -40,17 +40,10 @@ readLine.on("line", (line) => {
       reservoir[randomIndex] = line;
     }
   }
-
-  if (count % (size * 10) === 0) {
-    writeStream.write(reservoir.join("\n"));
-    reservoir.length = 0;
-  }
 });
 
 readLine.on("close", () => {
-  if (reservoir.length > 0) {
-    writeStream.write(reservoir.join("\n"));
-  }
+  writeStream.write(reservoir.join("\n"));
 
   writeStream.end();
 });
