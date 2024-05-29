@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { parseArgs } = require("node:util");
-const { createReadStream, writeFileSync } = require("node:fs");
+const { createReadStream, createWriteStream } = require("node:fs");
 const { resolve } = require("node:path");
 const { createInterface } = require("node:readline");
 
@@ -24,6 +24,10 @@ const size = parseInt(args.values.size, 10);
 const reservoir = [];
 let count = 0;
 
+const writeStream = createWriteStream(
+  resolve(process.cwd(), args.values.output),
+);
+
 readLine.on("line", (line) => {
   count += 1;
 
@@ -36,11 +40,17 @@ readLine.on("line", (line) => {
       reservoir[randomIndex] = line;
     }
   }
+
+  if (count % (size * 10) === 0) {
+    writeStream.write(reservoir.join("\n"));
+    reservoir.length = 0;
+  }
 });
 
 readLine.on("close", () => {
-  writeFileSync(
-    resolve(process.cwd(), args.values.output),
-    reservoir.join("\n"),
-  );
+  if (reservoir.length > 0) {
+    writeStream.write(reservoir.join("\n"));
+  }
+
+  writeStream.end();
 });
