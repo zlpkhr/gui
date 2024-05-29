@@ -23,9 +23,7 @@ const transformer = new Transform({
   },
 });
 
-const readStream = createReadStream(resolve(__dirname, args.values.input), {
-  encoding: "utf8",
-});
+const readStream = createReadStream(resolve(__dirname, args.values.input));
 
 const readLine = createInterface({
   input: readStream,
@@ -40,8 +38,6 @@ readLine.on("close", () => {
   transformer.end();
 });
 
-const writeStream = createWriteStream(resolve(__dirname, args.values.output), {
-  encoding: "utf8",
-});
+const writeStream = createWriteStream(resolve(__dirname, args.values.output));
 
 transformer.pipe(writeStream);
