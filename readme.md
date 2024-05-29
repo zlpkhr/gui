@@ -1,0 +1,1 @@
+Initial data link [Common Crawl](https://data.commoncrawl.org/projects/hyperlinkgraph/cc-main-2024-nov-feb-apr/domain/cc-main-2024-nov-feb-apr-domain-vertices.txt.gz)
