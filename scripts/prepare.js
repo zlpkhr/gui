@@ -25,8 +25,17 @@ async function extractHtmlData(filePath) {
   const $ = cheerio.load(htmlContent);
 
   const htmlStructure = $('body').html();
-  const textContent = $('body').text();
-  
+
+  // Get text content from elements that can have text
+  const textContent = $('body')
+    .find('*')
+    .contents()
+    .filter(function() {
+      return this.type === 'text';
+    })
+    .text()
+    .trim();
+
   let styles = '';
   $('style').each((i, elem) => {
     styles += $(elem).html();
